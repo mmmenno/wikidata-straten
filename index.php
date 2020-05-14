@@ -40,8 +40,8 @@ include("options.php");
 
 
 <div id="legenda">
-  <h1>Haarlemse straten op Wikidata, naar jaar van aanleg</h1>
-  <h3>(een project van Louisa en Fenna)</h3>
+  <h1>Straten in <?= $gemeentenaam ?> op Wikidata, naar jaar van aanleg</h1>
+  
   <div class="legendapoint" style="background-color: #838385;"></div> aanleg onbekend<br />
   <div class="legendapoint" style="background-color: #4575b4;"></div> aanleg > 2000<br />
   <div class="legendapoint" style="background-color: #74add1;"></div> aanleg > 1980<br />
@@ -52,20 +52,22 @@ include("options.php");
   <div class="legendapoint" style="background-color: #f46d43;"></div> aanleg > 1870<br />
   <div class="legendapoint" style="background-color: #a50026;"></div> aanleg < 1870<br />
 
+  <p>Als bekend is naar wie of wat de straat vernoemd is, wordt het bolletje iets groter weergegeven.</p>
 
   <div id="straatlabel"></div>
   <div id="bouwjaar"></div>
   <div id="naamgeverlabel"></div>
   <div id="naamgeverdescription"></div>
 
-  <!-- <form>
+  <form>
     <select name="gemeente">
       <?php echo $options ?>
     </select>
     <button>go</button>
   </form>
 
-  <p>meer info op <a target="_blank" href="https://github.com/mmmenno/rijksstraaten-bag#rijksstraaten--bag">GitHub</a></p> -->
+  <p>Als je denkt dat er inmiddels wijzigingen zijn, kan je de <a href="?gemeente=<?= $qgemeente ?>&uncache=true">gegevens opnieuw bij Wikidata ophalen</a></p>
+  
 </div>
 
 <script>
@@ -99,33 +101,36 @@ include("options.php");
   }
 
   function refreshMap(){
-    
-    $.ajax({
-      type: 'GET',
-      url: 'wijken.geojson',
-      dataType: 'json',
-      success: function(jsonData) {
 
-         if (typeof wijken !== 'undefined') {
-            map.removeLayer(wijken);
+      if("<?= $qgemeente ?>" == "Q9920"){
+    
+         $.ajax({
+         type: 'GET',
+         url: 'wijken.geojson',
+         dataType: 'json',
+         success: function(jsonData) {
+
+            if (typeof wijken !== 'undefined') {
+               map.removeLayer(wijken);
+            }
+
+            wijken = L.geoJson(null, {
+               style: function(feature) {
+                  return {
+                     color: "#FFF",
+                     fillOpacity: 0,
+                     weight: 1,
+                     clickable: true
+                  }
+               }
+            }).addTo(map);
+
+            wijken.addData(jsonData).bringToFront();
+
          }
 
-         wijken = L.geoJson(null, {
-            style: function(feature) {
-               return {
-                  color: "#FFF",
-                  fillOpacity: 0,
-                  weight: 1,
-                  clickable: true
-               }
-            }
-         }).addTo(map);
-
-         wijken.addData(jsonData).bringToFront();
-
-      }
-
-   });
+         });
+      };
 
 
     $.ajax({
@@ -150,6 +155,7 @@ include("options.php");
               style: function(feature) {
                 return {
                     color: getColor(feature.properties),
+                    radius: getSize(feature.properties),
                     clickable: true
                 };
               },
@@ -191,6 +197,15 @@ include("options.php");
     
     
     return '#1DA1CB';
+  }
+
+  function getSize(props) {
+
+    if(props['nlabel'] == null){
+      return 4;
+    }
+
+    return 6;
   }
 
 function whenClicked(){
