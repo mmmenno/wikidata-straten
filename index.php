@@ -18,7 +18,7 @@ include("options.php");
 <html>
 <head>
   
-<title>Straten in Haarlem</title>
+<title>Straten in <?= $gemeentenaam ?></title>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
