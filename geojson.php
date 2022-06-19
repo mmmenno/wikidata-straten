@@ -53,15 +53,15 @@ foreach ($data['results']['bindings'] as $k => $v) {
 	$beenthere[] = $v['straat']['value'];
 
 	if(!isset($v['naamgeverLabel']['value'])){
-		$v['naamgeverLabel']['value'] = "";
+		$v['naamgeverLabel']['value'] = null;
 	}
 
 	if(!isset($v['naamgeverDescription']['value'])){
-		$v['naamgeverDescription']['value'] = "";
+		$v['naamgeverDescription']['value'] = null;
 	}
 
 	if(!isset($v['aanlegjaar']['value'])){
-		$v['aanlegjaar']['value'] = "";
+		$v['aanlegjaar']['value'] = null;
 	}
 
 	$straat = array("type"=>"Feature");
