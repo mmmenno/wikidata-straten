@@ -135,7 +135,7 @@ include("options.php");
 
     $.ajax({
           type: 'GET',
-          url: 'geojson/<?= $qgemeente ?>.geojson<?php if(isset($_GET['uncache']){ ?>?version=<?= time() ?><?php } ?>',
+          url: 'geojson/<?= $qgemeente ?>.geojson<?php if(isset($_GET['uncache'])){ ?>?version=<?= time() ?><?php } ?>',
           dataType: 'json',
           success: function(jsonData) {
             if (typeof streets !== 'undefined') {

@@ -52,6 +52,17 @@ foreach ($data['results']['bindings'] as $k => $v) {
 	}
 	$beenthere[] = $v['straat']['value'];
 
+	if(!isset($v['naamgeverLabel']['value'])){
+		$v['naamgeverLabel']['value'] = "";
+	}
+
+	if(!isset($v['naamgeverDescription']['value'])){
+		$v['naamgeverDescription']['value'] = "";
+	}
+
+	if(!isset($v['aanlegjaar']['value'])){
+		$v['aanlegjaar']['value'] = "";
+	}
 
 	$straat = array("type"=>"Feature");
 	$props = array(

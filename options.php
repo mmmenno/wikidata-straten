@@ -1,4 +1,4 @@
-<?
+<?php
 
 $options = "";
 if (($handle = fopen("gemeenten.csv", "r")) !== FALSE) {
@@ -13,3 +13,5 @@ if (($handle = fopen("gemeenten.csv", "r")) !== FALSE) {
     }
     fclose($handle);
 }
+
+?>
